@@ -1,0 +1,32 @@
+{% extends 'tasks/base.html' %}
+
+{% block content %}
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+    <h1>My Tasks</h1>
+    <a href="{% url 'task_create' %}" class="btn">Add New Task</a>
+</div>
+
+{% for task in tasks %}
+<div class="card">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <h2 style="margin: 0 0 0.5rem;">
+                {{ task.title }}
+                {% if task.completed %}
+                <span style="color: #28a745; margin-left: 0.5rem;">&#10004;</span>
+                {% endif %}
+            </h2>
+            <p style="margin: 0; color: #666;">{{ task.description }}</p>
+            <small style="color: #999;">Created: {{ task.created_at|date:"M d, Y" }}</small>
+        </div>
+        <div>
+            <a href="{% url 'task_update' task.pk %}" class="btn"
+                style="margin-right: 0.5rem; background-color: #28a745;">Edit</a>
+            <a href="{% url 'task_delete' task.pk %}" class="btn btn-danger">Delete</a>
+        </div>
+    </div>
+</div>
+{% empty %}
+<p>No tasks yet. Create one to get started!</p>
+{% endfor %}
+{% endblock %}
